@@ -1,0 +1,18 @@
+# Secrets
+.env
+
+# Backend
+backend/target/
+backend/.settings/
+backend/.classpath
+backend/.project
+backend/.mvn/wrapper/maven-wrapper.jar
+
+# Frontend
+frontend/node_modules/
+frontend/dist/
+
+# IDE / OS
+.idea/
+.vscode/
+.DS_Store
