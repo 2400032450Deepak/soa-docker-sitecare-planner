@@ -1,4 +1,4 @@
-export default function PlanTable({ plans, onEdit, onDelete }) {
+export default function PlanTable({ plans, onDelete }) {
   return (
     <section className="card">
       <h3>Maintenance Plans</h3>
@@ -32,7 +32,6 @@ export default function PlanTable({ plans, onEdit, onDelete }) {
                   </span>
                 </td>
                 <td>
-                  <button className="icon-btn edit" title="Edit" onClick={() => onEdit(p)}>✎</button>
                   <button className="icon-btn del" title="Delete" onClick={() => onDelete(p.id)}>🗑</button>
                 </td>
               </tr>

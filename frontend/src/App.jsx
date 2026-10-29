@@ -1,13 +1,12 @@
 import { useCallback, useEffect, useState } from "react";
-import { addPlan, deletePlan, getPlans, updatePlan } from "./api";
+import { addPlan, deletePlan, getPlans } from "./api";
 import PlanForm from "./components/PlanForm.jsx";
 import PlanTable from "./components/PlanTable.jsx";
 
 export default function App() {
   const [plans, setPlans] = useState([]);
-  const [editingPlan, setEditingPlan] = useState(null);
   const [fieldErrors, setFieldErrors] = useState({});
-  const [message, setMessage] = useState(null); // { type: "ok" | "err", text }
+  const [message, setMessage] = useState(null);
 
   const notify = (type, text) => {
     setMessage({ type, text });
@@ -25,23 +24,16 @@ export default function App() {
 
   useEffect(() => { load(); }, [load]);
 
-  // Returns true when saved, so the form knows whether to reset itself
   const handleSubmit = async (plan) => {
     setFieldErrors({});
     try {
-      if (editingPlan) {
-        await updatePlan(editingPlan.id, plan);
-        notify("ok", "Plan updated successfully");
-        setEditingPlan(null);
-      } else {
-        await addPlan(plan);
-        notify("ok", "Plan added successfully");
-      }
+      await addPlan(plan);
+      notify("ok", "Plan added successfully");
       await load();
       return true;
     } catch (err) {
       if (err.response?.status === 400) {
-        setFieldErrors(err.response.data); // validation messages from Spring Boot
+        setFieldErrors(err.response.data);
         notify("err", "Please fix the highlighted fields");
       } else {
         notify("err", "Something went wrong while saving");
@@ -55,7 +47,6 @@ export default function App() {
     try {
       const res = await deletePlan(id);
       notify("ok", res.data);
-      if (editingPlan?.id === id) setEditingPlan(null);
       await load();
     } catch {
       notify("err", "Delete failed");
@@ -81,14 +72,12 @@ export default function App() {
         {message && <div className={`toast ${message.type}`}>{message.text}</div>}
 
         <PlanForm
-          editingPlan={editingPlan}
           onSubmit={handleSubmit}
-          onCancel={() => { setEditingPlan(null); setFieldErrors({}); }}
+          onCancel={() => setFieldErrors({})}
           fieldErrors={fieldErrors}
         />
         <PlanTable
           plans={plans}
-          onEdit={(p) => { setEditingPlan(p); setFieldErrors({}); window.scrollTo({ top: 0, behavior: "smooth" }); }}
           onDelete={handleDelete}
         />
       </main>

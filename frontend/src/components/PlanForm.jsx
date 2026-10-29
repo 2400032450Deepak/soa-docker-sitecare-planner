@@ -1,15 +1,10 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 const EMPTY = { websiteName: "", planType: "Basic", monthlyFee: "", active: true };
 export const PLAN_TYPES = ["Basic", "Standard", "Premium"];
 
-export default function PlanForm({ editingPlan, onSubmit, onCancel, fieldErrors }) {
+export default function PlanForm({ onSubmit, fieldErrors }) {
   const [form, setForm] = useState(EMPTY);
-
-  // Fill the form when a row is chosen for editing, reset otherwise
-  useEffect(() => {
-    setForm(editingPlan ? { ...editingPlan } : EMPTY);
-  }, [editingPlan]);
 
   const change = (e) => {
     const { name, value, type, checked } = e.target;
@@ -22,14 +17,12 @@ export default function PlanForm({ editingPlan, onSubmit, onCancel, fieldErrors 
       ...form,
       monthlyFee: form.monthlyFee === "" ? null : Number(form.monthlyFee),
     });
-    if (ok && !editingPlan) setForm(EMPTY);
+    if (ok) setForm(EMPTY);
   };
-
-  const isEditing = Boolean(editingPlan);
 
   return (
     <section className="card">
-      <h3>{isEditing ? "Update Plan" : "Add New Plan"}</h3>
+      <h3>Add New Plan</h3>
       <p className="muted">Enter the website and maintenance plan details.</p>
 
       <form onSubmit={submit} noValidate>
@@ -67,12 +60,7 @@ export default function PlanForm({ editingPlan, onSubmit, onCancel, fieldErrors 
         </div>
 
         <div className="actions">
-          <button type="submit" className="btn primary">
-            {isEditing ? "Update Plan" : "+ Add Plan"}
-          </button>
-          {isEditing && (
-            <button type="button" className="btn" onClick={onCancel}>Cancel</button>
-          )}
+          <button type="submit" className="btn primary">+ Add Plan</button>
         </div>
       </form>
     </section>

@@ -9,5 +9,4 @@ const api = axios.create({
 
 export const getPlans = () => api.get("/DisplayAll");
 export const addPlan = (plan) => api.post("/Add", plan);
-export const updatePlan = (id, plan) => api.put(`/Update/${id}`, plan);
 export const deletePlan = (id) => api.delete(`/Delete/${id}`);
