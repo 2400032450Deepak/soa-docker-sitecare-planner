@@ -1,16 +1,17 @@
 # SiteCare Planner
 
-Full-stack website maintenance plan manager, containerized with Docker Compose.
+A website maintenance plan manager built with React, Spring Boot, PostgreSQL, and Docker.
+
+## Tech Stack
 
 | Layer | Tech |
 |---|---|
-| Frontend | React (JSX) + Vite + Axios, served by nginx |
-| Backend | Java, Spring Boot, validation, Swagger UI |
-| Database | PostgreSQL |
+| Frontend | React + Vite + Axios, served by nginx |
+| Backend | Java, Spring Boot, PostgreSQL |
 | Containers | Docker, Docker Compose |
-| CI/CD | GitHub Actions -> Docker Hub |
+| CI/CD | GitHub Actions |
 
-## Run everything
+## How to Run
 
 ```bash
 docker compose up --build
@@ -18,15 +19,9 @@ docker compose up --build
 
 - Frontend: http://localhost:3000
 - Backend API: http://localhost:8081/WebsiteMaintenancePlan/DisplayAll
-- Swagger UI: http://localhost:8081/swagger-ui.html
 
-Stop with `docker compose down` (add `-v` to also delete the database volume).
+## Stop
 
-## GitHub Actions secrets
-
-Add these in the repo under Settings > Secrets and variables > Actions:
-
-- `DOCKERHUB_USERNAME`: your Docker Hub username
-- `DOCKERHUB_TOKEN`: a Docker Hub access token (Account settings > Security)
-
-Every push to `main` builds and pushes `sitecare-backend` and `sitecare-frontend`.
+```bash
+docker compose down
+```
